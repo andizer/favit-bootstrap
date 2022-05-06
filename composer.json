@@ -1,8 +1,9 @@
 {
-  "name": "favit/bootstrap",
+  "name": "andizer/favit-bootstrap",
   "description": "The favit bootstrap",
   "version": "0.1",
-  "type": "library",
+  "type": "package",
+  "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
       "Favit\\Bootstrap\\": "src/"
