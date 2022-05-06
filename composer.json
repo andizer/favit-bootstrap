@@ -3,7 +3,6 @@
   "description": "The favit bootstrap",
   "version": "0.1",
   "type": "library",
-  "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
       "Favit\\Bootstrap\\": "src/"
