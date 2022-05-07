@@ -12,10 +12,10 @@ class Bootstrap {
 	protected Decorators $decorators;
 	protected Conditionals $conditionals;
 
-	public function __construct() {
-		$this->integrations = new Integrations();
-		$this->decorators   = new Decorators();
-		$this->conditionals = new Conditionals();
+	public function __construct( Integrations $integrations, Decorators $decorators, Conditionals $conditionals ) {
+		$this->integrations = $integrations;
+		$this->decorators   = $decorators;
+		$this->conditionals = $conditionals;
 	}
 
 	protected function load() {
