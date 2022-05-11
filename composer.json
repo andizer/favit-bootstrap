@@ -3,10 +3,13 @@
   "description": "The favit bootstrap",
   "version": "0.1",
   "type": "package",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
       "Favit\\Bootstrap\\": "src/"
     }
+  },
+  "require": {
+    "psr/container": "^2.0"
   }
 }
