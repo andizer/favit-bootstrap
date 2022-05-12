@@ -2,7 +2,7 @@
 
 namespace Favit\Bootstrap\Integrations;
 
-use Favit\Bootstrap\Container;
+use League\Container\Container;
 
 final class Integrations {
 

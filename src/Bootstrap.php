@@ -5,6 +5,8 @@ namespace Favit\Bootstrap;
 use Favit\Bootstrap\Conditionals\Conditionals;
 use Favit\Bootstrap\Decorators\Decorators;
 use Favit\Bootstrap\Integrations\Integrations;
+use League\Container\Container;
+use League\Container\ReflectionContainer;
 
 class Bootstrap {
 
@@ -18,6 +20,13 @@ class Bootstrap {
 		$this->conditionals = $conditionals;
 
 		$this->setup();
+	}
+
+	public static function get_container(): Container {
+		$container = new Container();
+		$container->delegate( new ReflectionContainer( true ) );
+
+		return $container;
 	}
 
 	protected function initialize(): void {

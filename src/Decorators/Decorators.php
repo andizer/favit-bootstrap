@@ -2,8 +2,8 @@
 
 namespace Favit\Bootstrap\Decorators;
 
-use Favit\Bootstrap\Container;
 use Favit\Bootstrap\Integrations\Integration;
+use League\Container\Container;
 
 final class Decorators {
 
