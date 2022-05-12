@@ -2,41 +2,34 @@
 
 namespace Favit\Bootstrap\Integrations;
 
-use Favit\Bootstrap\Conditionals\Conditionals;
+use Favit\Bootstrap\Container;
 
 final class Integrations {
 
 	/**
-	 * Represents the integrations.
-	 *
 	 * @var Integration[]
 	 */
 	private array $integrations = [];
 
-	/**
-	 * Adds a new integration.
-	 *
-	 * @param Integration $integration The integration to add.
-	 */
-	public function add( Integration $integration ): void {
-		$this->integrations[] = $integration;
+	private Container $container;
+
+	public function __construct( Container $container ) {
+		$this->container = $container;
 	}
 
-	/**
-	 * Retrieves the set integrations.
-	 *
-	 * @return Integration[]
-	 */
-	public function get(): array {
-		return $this->integrations;
+	public function add( string $id ): void {
+		$this->integrations[ $id ] = $this->container->get( $id );
 	}
 
-	/**
-	 * Loads the integration by registering it.
-	 *
-	 * @param Integration $integration Integration to check.
-	 */
+	public function list(): array {
+		return array_filter( $this->integrations, [ $this, 'is_integration' ] );
+	}
+
 	public function integrate( Integration $integration ): void {
 		$integration->register();
+	}
+
+	private function is_integration( $integration ): bool {
+		return $integration instanceof Integration;
 	}
 }

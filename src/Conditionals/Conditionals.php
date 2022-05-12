@@ -2,16 +2,21 @@
 
 namespace Favit\Bootstrap\Conditionals;
 
+use Favit\Bootstrap\Container;
 use Favit\Bootstrap\Integrations\Integration;
 
 final class Conditionals {
 
 	/**
-	 * Holds the instances of the conditionals.
-	 *
 	 * @var Conditional[]
 	 */
 	private static array $conditionals = [];
+
+	private Container $container;
+
+	public function __construct( Container $container ) {
+		$this->container = $container;
+	}
 
 	/**
 	 * Checks the conditionals.
@@ -31,6 +36,10 @@ final class Conditionals {
 		return true;
 	}
 
+	public function has( $id ): bool {
+		return array_key_exists( $id, self::$conditionals );
+	}
+
 	/**
 	 * Retrieves the conditional from internal cache. If not exist instantiate it.
 	 *
@@ -38,9 +47,9 @@ final class Conditionals {
 	 *
 	 * @return Conditional
 	 */
-	private function get_conditional(string $conditional): Conditional {
-		if( ! array_key_exists( $conditional, self::$conditionals ) ) {
-			self::$conditionals[ $conditional ] = new $conditional();
+	private function get_conditional( string $conditional ): Conditional {
+		if ( ! $this->has( $conditional )  ) {
+			self::$conditionals[ $conditional ] = $this->container->get( $conditional );
 		}
 
 		return self::$conditionals[ $conditional ];

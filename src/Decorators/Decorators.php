@@ -2,6 +2,7 @@
 
 namespace Favit\Bootstrap\Decorators;
 
+use Favit\Bootstrap\Container;
 use Favit\Bootstrap\Integrations\Integration;
 
 final class Decorators {
@@ -11,19 +12,29 @@ final class Decorators {
 	 */
 	private array $decorators = [];
 
-	public function add( Decorator $decorator ): void {
-		$this->decorators[] = $decorator;
+	private Container $container;
+
+	public function __construct( Container $container ) {
+		$this->container = $container;
+	}
+
+	public function add( string $id ): void {
+		$this->decorators[ $id ] = $this->container->get( $id );
 	}
 
 	public function decorate( Integration $integration ): Integration {
-		foreach ( $this->get() as $decorator ) {
+		foreach ( $this->list() as $decorator ) {
 			$decorator->decorate( $integration );
 		}
 
 		return $integration;
 	}
 
-	private function get(): array {
-		return $this->decorators;
+	public function list(): array {
+		return array_filter( $this->decorators, [ $this, 'is_decorator' ] );
+	}
+
+	private function is_decorator( $integration ): bool {
+		return $integration instanceof Decorator;
 	}
 }

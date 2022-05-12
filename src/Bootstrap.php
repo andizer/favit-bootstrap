@@ -16,13 +16,19 @@ class Bootstrap {
 		$this->integrations = $integrations;
 		$this->decorators   = $decorators;
 		$this->conditionals = $conditionals;
+
+		$this->setup();
 	}
 
-	protected function load() {
-		$integrations = $this->integrations->get();
+	protected function initialize(): void {
+		$integrations = $this->integrations->list();
 		$integrations = array_filter( $integrations, [ $this->conditionals, 'check' ] );
 		$integrations = array_map( [$this->decorators, 'decorate'], $integrations );
 
 		array_walk( $integrations, [ $this->integrations, 'integrate' ] );
+	}
+
+	protected function setup(): void {
+
 	}
 }
