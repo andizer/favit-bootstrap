@@ -48,31 +48,25 @@ final class Container implements ContainerInterface
 	/**
 	 * resolve single
 	 *
-	 * @param callable|string $concrete
-	 * @param array $parameters
+	 * @param string $concrete
 	 *
 	 * @return mixed|object
 	 * @throws Exception
 	 */
-	public function resolve($concrete, array $parameters)
+	private function resolve( $concrete )
 	{
-		if ($concrete instanceof Closure) {
-			return $concrete($this, $parameters);
-		}
-
 		$reflector = new ReflectionClass($concrete);
-		if (!$reflector->isInstantiable()) {
+		if ( ! $reflector->isInstantiable()) {
 			throw new Exception("Class {$concrete} is not instantiable");
 		}
 
-		// get class constructor
 		$constructor = $reflector->getConstructor();
 		if (is_null($constructor)) {
 			return $reflector->newInstance();
 		}
 
 		$parameters   = $constructor->getParameters();
-		$dependencies = $this->getDependencies($parameters);
+		$dependencies = $this->resolve_dependencies($parameters);
 
 		return $reflector->newInstanceArgs($dependencies);
 	}
@@ -85,10 +79,10 @@ final class Container implements ContainerInterface
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getDependencies(array $parameters): array
+	private function resolve_dependencies(array $parameters): array
 	{
 		try {
-			$dependencies = array_map( [ $this, 'getDependency' ], $parameters );
+			$dependencies = array_map( [ $this, 'get_dependency' ], $parameters );
 		}
 		catch( Exception $e ) {
 			throw $e;
@@ -100,10 +94,10 @@ final class Container implements ContainerInterface
 	/**
 	 * @throws ReflectionException|Exception
 	 */
-	private function getDependency(ReflectionParameter $parameter ) {
+	private function get_dependency( ReflectionParameter $parameter ) {
 		$dependency = $parameter->getClass();
-		if ($dependency !== null) {
-			return $this->get($dependency->name);
+		if ( $dependency !== null ) {
+			return $this->get( $dependency->name );
 		}
 
 		if ( $parameter->isDefaultValueAvailable() ) {
