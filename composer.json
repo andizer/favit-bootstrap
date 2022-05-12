@@ -10,6 +10,7 @@
     }
   },
   "require": {
-    "psr/container": "^2.0"
+    "psr/container": "^2.0",
+    "league/container": "^4.2"
   }
 }
