@@ -25,13 +25,12 @@ final class Container implements ContainerInterface
 	 * @param      $abstract
 	 * @param null $concrete
 	 */
-	public function set($abstract, $concrete = null)
-	{
+	public function set( $abstract, $concrete = null ) {
 		if ($concrete === null) {
 			$concrete = $abstract;
 		}
 
-		$this->instances[$abstract] = $concrete;
+		$this->instances[$abstract] = $this->resolve( $concrete );
 	}
 
 	/**
