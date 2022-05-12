@@ -14,17 +14,8 @@ use ReflectionParameter;
 final class Container
 {
 
-	private static ?self $instance = null;
-
 	protected array $instances = [];
 
-	public static function get_instance(): self {
-		if ( self::$instance === null ) {
-			self::$instance = new self;
-		}
-
-		return self::$instance;
-	}
 
 	/**
 	 * @param      $abstract
