@@ -4,6 +4,7 @@ namespace Favit\Bootstrap;
 
 use Closure;
 use Exception;
+use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;
@@ -11,11 +12,14 @@ use ReflectionParameter;
 /**
  * Class Container
  */
-final class Container
+final class Container implements ContainerInterface
 {
 
 	protected array $instances = [];
 
+	public function has(string $id): bool {
+		return isset($this->instances[$id]);
+	}
 
 	/**
 	 * @param      $abstract
@@ -31,19 +35,15 @@ final class Container
 	}
 
 	/**
-	 * @param       $abstract
-	 * @param array $parameters
-	 *
-	 * @return mixed|null|object
 	 * @throws Exception
 	 */
-	public function get($abstract, array $parameters = [])
+	public function get( string $id )
 	{
-		if (!isset($this->instances[$abstract])) {
-			$this->set($abstract);
+		if ( ! $this->has( $id ) ) {
+			$this->set( $id );
 		}
 
-		return $this->resolve($this->instances[$abstract], $parameters);
+		return $this->instances[$id];
 	}
 
 	/**
