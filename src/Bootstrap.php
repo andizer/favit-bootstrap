@@ -24,6 +24,7 @@ class Bootstrap {
 
 	public static function get_container(): Container {
 		$container = new Container();
+		$container->add( Container::class, $container );
 		$container->delegate( new ReflectionContainer( true ) );
 
 		return $container;
