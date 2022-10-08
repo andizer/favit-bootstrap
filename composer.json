@@ -1,9 +1,10 @@
 {
   "name": "andizer/favit-bootstrap",
-  "description": "The favit bootstrap",
-  "version": "0.1",
+  "description": "Bootstrapping for WordPress plugins and themes",
   "type": "package",
+  "keywords": ["bootstrap", "wordpress", "di-container"],
   "minimum-stability": "stable",
+  "license": "GPL-2.0-or-later",
   "autoload": {
     "psr-4": {
       "Favit\\Bootstrap\\": "src/"
@@ -12,5 +13,12 @@
   "require": {
     "psr/container": "^2.0",
     "league/container": "^4.2"
-  }
+  },
+  "authors": [
+    {
+      "name": "Andy Meerwaldt",
+      "homepage": "https://github.com/andizer",
+      "role": "Developer"
+    }
+  ]
 }
