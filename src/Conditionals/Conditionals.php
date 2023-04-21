@@ -2,7 +2,6 @@
 
 namespace Favit\Bootstrap\Conditionals;
 
-use Favit\Bootstrap\Integrations\Integration;
 use League\Container\Container;
 
 final class Conditionals {
@@ -21,12 +20,12 @@ final class Conditionals {
 	/**
 	 * Checks the conditionals.
 	 *
-	 * @param Integration $integration The integration to check.
+	 * @param Conditionable $conditionable The conditionable to check.
 	 *
 	 * @return bool
 	 */
-	public function check( Integration $integration ): bool {
-		foreach ( $integration->get_conditionals() as $conditional ) {
+	public function check( Conditionable $conditionable ): bool {
+		foreach ( $conditionable->get_conditionals() as $conditional ) {
 			$instance = $this->get_conditional( $conditional );
 			if ( ! $instance->is_met() ) {
 				return false;
