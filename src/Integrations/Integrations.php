@@ -40,6 +40,19 @@ final class Integrations {
 		$integration->register();
 	}
 
+	public function set_integratables( Integratable ...$integratables ): void {
+		\array_walk(
+			$integratables,
+			function( Integratable $integratable ) {
+				$this->set_integrations( ...$integratable->get_integrations() );
+			}
+		);
+	}
+
+	public function set_integrations( string ...$integrations ): void {
+		\array_walk( $integrations, [ $this, 'add' ] );
+	}
+
 	private function is_integration( $integration ): bool {
 		return $integration instanceof Integration;
 	}
