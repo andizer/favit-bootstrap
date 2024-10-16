@@ -11,6 +11,11 @@ final class Integrations {
 	 */
 	private array $integrations = [];
 
+	/**
+	 * @var string[]
+	 */
+	private array $is_integrated = [];
+
 	private Container $container;
 
 	public function __construct( Container $container ) {
@@ -26,6 +31,12 @@ final class Integrations {
 	}
 
 	public function integrate( Integration $integration ): void {
+		if ( \in_array( $integration::class, $this->is_integrated ) ) {
+			return;
+		}
+
+		$this->is_integrated[] = $integration::class;
+
 		$integration->register();
 	}
 
