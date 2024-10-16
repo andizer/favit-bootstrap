@@ -8,7 +8,7 @@ use Favit\Bootstrap\Integrations\Integrations;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
 
-class Bootstrap {
+class Bootstrap implements Bootable {
 
 	protected Integrations $integrations;
 	protected Decorators $decorators;
@@ -30,14 +30,28 @@ class Bootstrap {
 		return $container;
 	}
 
-	protected function initialize(): void {
+	public function boot(): void {
 		$integrations = $this->integrations->list();
-		$integrations = array_filter( $integrations, [ $this->conditionals, 'check' ] );
-		$integrations = array_map( [$this->decorators, 'decorate'], $integrations );
+		$integrations = \array_filter( $integrations, [ $this->conditionals, 'check' ] );
+		$integrations = \array_map( [$this->decorators, 'decorate'], $integrations );
 
-		array_walk( $integrations, [ $this->integrations, 'integrate' ] );
+		\array_walk( $integrations, [ $this->integrations, 'integrate' ] );
 	}
 
+	/**
+	 * Presents for backwards compatibility.
+	 *
+	 * @return void
+	 */
+	protected function initialize(): void {
+		$this->boot();
+	}
+
+	/**
+	 * @todo This setup can removed, just a matter of extending the boot logic.
+	 *
+	 * @return void
+	 */
 	protected function setup(): void {
 
 	}
