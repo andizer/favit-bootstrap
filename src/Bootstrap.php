@@ -22,6 +22,10 @@ class Bootstrap implements Bootable {
 		$this->setup();
 	}
 
+	public function __invoke(): void {
+		$this->boot();
+	}
+
 	public static function get_container(): Container {
 		$container = new Container();
 		$container->add( Container::class, $container );
