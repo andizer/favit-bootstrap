@@ -20,7 +20,7 @@ abstract class BaseMenuPage implements Integration {
             'Favit',
             'manage_options',
             self::PAGE_SLUG,
-            [ 'self', 'render' ],
+            [ static::class, 'render' ],
             'dashicons-admin-generic',
             20
         );
@@ -37,6 +37,14 @@ abstract class BaseMenuPage implements Integration {
     public static function render( $page_slug = self::PAGE_SLUG ) {
         echo "<div class='wrap favit-admin-wrapper'>";
         echo "<h2>Favit configuration</h2>";
+
+        if ( ! static::has_fields( $page_slug ) ) {
+            echo '<p>Er zijn geen instellingen beschikbaar.</p>';
+            echo '</div>';
+
+            return;
+        }
+
         echo "<form action='options.php' method='post'>";
         \settings_fields( $page_slug );
         \do_settings_sections( $page_slug );
@@ -44,5 +52,18 @@ abstract class BaseMenuPage implements Integration {
 
         echo "</form>";
         echo "</div>";
+    }
+
+    private static function has_fields($page_slug): bool {
+        global $wp_settings_fields;
+
+
+        $sections = $wp_settings_fields[ $page_slug ] ?? [];
+        $has_fields = \array_filter(
+            $sections,
+            static fn ( $fields ): bool => ! empty( $fields )
+        );
+
+        return ! empty( $has_fields );
     }
 }
